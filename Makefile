@@ -29,10 +29,10 @@ Doxygen:
 	
 all1: clean1 Doxygen
 
-compile_2: clean prep test.bin
+test_lab: clean prep test.bin
 
-test.bin:src/main.c
-	 $(CC) $(C_OPTS) $< -fprofile-instr-generate -fcoverage-mapping  -o ./dist/$@ -lcheck -lsubunit
+test.bin:test/test.c
+	 $(CC) $(C_OPTS) $< -fprofile-instr-generate -fcoverage-mapping -lsubunit  -o ./dist/$@ -lcheck 
 test: prep compile_2
 		LLVM_PROFILE_FILE="dist/test.profraw" ./dist/test.bin
 		llvm-profdata merge -sparse dist/test.profraw -o dist/test.profdata
